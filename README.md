@@ -1,18 +1,17 @@
-Step 1: Initialize Node.js project
+Step 1: Initialize Backend Node JS Express Server (port: 3000)
 
 ```
-mkdir todo-backend
 cd todo-backend
-npm init -y
-npm install express sequelize pg pg-hstore body-parser cors socket.io
-npm install -D typescript @types/node @types/express @types/sequelize @types/cors @types/socket.io
-tsc --init
+npm install
+npm run dev
 ```
 
-Step 2: Initialize React project
+Step 2: Initialize Frontend React project (port: 3001)
 
 ```
-npx create-react-app todo-frontend --template typescript
 cd todo-frontend
-npm install socket.io-client
+npm install
+npm start
 ```
+
+Step 3: View site at http://localhost:3001
