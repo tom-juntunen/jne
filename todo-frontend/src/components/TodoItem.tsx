@@ -1,6 +1,6 @@
 // src/components/TodoItem.tsx
 import React from 'react';
-import './TodoItem.css'; // Ensure you have a corresponding CSS file
+import './TodoItem.css';
 
 interface TodoItemProps {
   id: number;

@@ -76,7 +76,7 @@ app.delete('/todos/:id', async (req, res) => {
 
   if (numDeleted) {
     res.status(200).send({ message: `Deleted todo with id ${id}` });
-    io.emit('delete_todo', id); // Emit to all connected clients
+    io.emit('delete_todo', id); // Emit the delete to all connected clients
   } else {
     res.status(404).send('Todo not found');
   }
