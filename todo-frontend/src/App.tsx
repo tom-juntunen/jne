@@ -26,14 +26,12 @@ const App: React.FC = () => {
     const handleNewTodo = (newTodo: TodoItemData) => {
       setTodos((prevTodos) => [...prevTodos, newTodo]);
     };
-    socket.on('new_todo', handleNewTodo);
     
     const handleUpdatedTodo = (updatedTodo: TodoItemData) => {
       setTodos((prevTodos) =>
       prevTodos.map((todo) => (todo.id === updatedTodo.id ? updatedTodo : todo))
       );
     };
-    socket.on('update_todo', handleUpdatedTodo);
     
     const handleDeleteTodo = (todoId: number) => {
       console.log(`Handling delete for todo with id: ${todoId}`);
@@ -41,8 +39,10 @@ const App: React.FC = () => {
         prevTodos.filter((todo) => todo.id !== todoId)
       );
     };
-    socket.on('delete_todo', handleDeleteTodo);
     
+    socket.on('new_todo', handleNewTodo);
+    socket.on('update_todo', handleUpdatedTodo);
+    socket.on('delete_todo', handleDeleteTodo);
   
     return () => {
       socket.off('new_todo', handleNewTodo);
