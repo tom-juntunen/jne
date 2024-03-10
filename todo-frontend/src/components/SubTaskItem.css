@@ -1,0 +1,60 @@
+/* src/components/SubTaskItem.css */
+.subtask-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1rem;
+    padding: 1rem;
+    transition: box-shadow 0.2s ease-in-out;
+  }
+  
+  .subtask-item:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  .subtask-toggle {
+    margin-right: 1rem;
+    accent-color: #4caf50;
+  }
+  
+  .subtask-text {
+    flex-grow: 1;
+    overflow: hidden;
+  }
+  
+  .subtask-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  
+  .subtask-description {
+    color: #666;
+    font-size: 1rem;
+    margin-top: 0.5rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  
+  .subtask-delete {
+    padding: 0.5rem 1rem;
+    background-color: #ff5252;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+  }
+  
+  .subtask-delete:hover {
+    background-color: #ff1744;
+  }
+  

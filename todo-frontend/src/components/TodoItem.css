@@ -1,5 +1,6 @@
 /* TodoItem.css */
 .todo-item {
+  position: relative; /* Set position relative for absolute positioning */
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -7,7 +8,7 @@
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin-bottom: 1rem;
-  padding: 1rem;
+  padding: 1rem; /* Add padding for better spacing */
   transition: box-shadow 0.2s ease-in-out;
 }
 
@@ -15,14 +16,13 @@
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
-.todo-checkbox {
+.todo-toggle {
   margin-right: 1rem;
   accent-color: #4caf50;
 }
 
 .todo-text {
   flex-grow: 1;
-  overflow: hidden;
 }
 
 .todo-title {
@@ -39,9 +39,22 @@
   color: #666;
   font-size: 1rem;
   margin-top: 0.5rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+}
+
+.todo-info {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.completed-at {
+  font-size: 0.8rem;
+  color: #4caf50; /* Green text */
+  font-style: italic; /* Italicized */
+}
+
+.completed-time {
+  margin-left: 0.5rem; /* Add some margin */
 }
 
 .todo-delete {
@@ -56,4 +69,19 @@
 
 .todo-delete:hover {
   background-color: #ff1744;
+}
+
+.todo-add-subtask {
+  padding: 0.5rem 1rem;
+  margin-left: 1rem; /* Add margin if needed */
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.todo-add-subtask:hover {
+  background-color: #43a047; /* Slightly darker shade on hover */
 }
