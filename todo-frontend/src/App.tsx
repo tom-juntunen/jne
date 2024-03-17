@@ -312,8 +312,30 @@ const App: React.FC = () => {
     setAddingSubtaskId(null); // Hide the subtask addition form once the subtask is submitted
   };
 
+  const handleUpdateSubtask = (title: string, description: string, taskItemId: number, subtaskId: number) => {
+    console.log('sending request to backend')
+    fetch(`http://localhost:3000/todos/${taskItemId}/subtasks/${subtaskId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ title, description }), // Send title and description in the request body
+    })
+    .then(response => response.json())
+    .then(updatedSubtask => {
+      // Emit the new subtask to the server using socket.io
+      socket.emit('update_subtask', updatedSubtask); 
+      // TODO: Update the new subtask and other emits that require downstream toast notifications to include a clientId such that the creator doesn't get the notification but others do.
+    })
+    .catch(error => {
+      console.error('Failed to update subtask', error);
+    });
+  
+    setAddingSubtaskId(-1); // Hide the subtask addition form once the subtask is submitted
+  };
+
   const handleCancelAddSubtask = () => {
-    setAddingSubtaskId(null); // Hide the subtask addition form without adding a subtask
+    setAddingSubtaskId(-1); // Hide the subtask addition form without adding a subtask
   };
 
   return (
@@ -380,6 +402,7 @@ const App: React.FC = () => {
                     deleteSubTask={() => {}} // No-op for new subtask
                     onAddSubtaskSubmit={handleAddSubtaskSubmit}
                     onCancelAddSubtask={handleCancelAddSubtask}
+                    onUpdateSubtask={() => {}} // No-op for new subtask
                   />
                 )}
               </div>
@@ -401,6 +424,7 @@ const App: React.FC = () => {
                     toggleSubtaskComplete={toggleSubtaskComplete}
                     deleteSubTask={deleteSubTask}
                     onCancelAddSubtask={() => {}}
+                    onUpdateSubtask={handleUpdateSubtask}
                   />
                 </div>
               ))}

@@ -15,6 +15,7 @@ interface SubTaskItemProps {
   deleteSubTask: (taskItemId: number, id: number) => void;
   onCancelAddSubtask: () => void;
   onAddSubtaskSubmit?: (title: string, description: string, taskItemId: number) => void;
+  onUpdateSubtask: (title: string, description: string, taskItemId: number, subtaskId: number) => void;
 }
 
 const SubTaskItem: React.FC<SubTaskItemProps> = ({
@@ -29,10 +30,14 @@ const SubTaskItem: React.FC<SubTaskItemProps> = ({
   toggleSubtaskComplete,
   deleteSubTask,
   onCancelAddSubtask,
-  onAddSubtaskSubmit
+  onAddSubtaskSubmit,
+  onUpdateSubtask
 }) => {
   const [newTitle, setNewTitle] = useState('');
   const [newDescription, setNewDescription] = useState('');
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedTitle, setEditedTitle] = useState(title);
+  const [editedDescription, setEditedDescription] = useState(description);
   const itemClassName = `subtask-item${completed ? ' completed' : ''}`;
 
   const handleSubmit = () => {
@@ -41,6 +46,15 @@ const SubTaskItem: React.FC<SubTaskItemProps> = ({
       setNewTitle('');
       setNewDescription('');
     }
+  };
+  
+  const handleEdit = () => {
+    setIsEditing(true);
+  };
+
+  const handleSave = () => {
+    onUpdateSubtask(editedTitle, editedDescription, taskItemId, id);
+    setIsEditing(false);
   };
 
   return (
@@ -63,17 +77,35 @@ const SubTaskItem: React.FC<SubTaskItemProps> = ({
             <button style={{ maxWidth: '150px' }} onClick={handleSubmit}>Add Subtask</button>
             <button onClick={onCancelAddSubtask}>Cancel</button>
           </div>
+        ) : isEditing ? (
+          // Edit mode with input fields for title and description
+          <div className="subtask-edit-form">
+            <input
+              type="text"
+              value={editedTitle}
+              onChange={(e) => setEditedTitle(e.target.value)}
+            />
+            <input
+              type="text"
+              value={editedDescription}
+              onChange={(e) => setEditedDescription(e.target.value)}
+            />
+            <button onClick={handleSave}>Save</button>
+            <button onClick={() => setIsEditing(false)}>Cancel</button>
+          </div>
         ) : (
+          // Display mode with text and an edit button
           <div className="subtask-content">
             {!completed && (
-                <a className="subtask-delete" onClick={() => deleteSubTask(taskItemId, id)}>
-                  <span className="subtask-delete-x">X</span>
-                </a>
-              )}
+              <a className="subtask-delete" onClick={() => deleteSubTask(taskItemId, id)}>
+                <span className="subtask-delete-x">X</span>
+              </a>
+            )}
             <div className="subtask-text">
               <div className="subtask-title">
                 <h4>{title}</h4>
-                <span className="subtask-updated-at">Updated {updatedAt ? formatUpdatedAt(updatedAt) : 'N/A'} ago</span>
+                <button onClick={() => handleEdit()}>Edit</button>
+                <span className="subtask-updated-at">{updatedAt ? formatUpdatedAt(updatedAt) : 'N/A'}</span>
               </div>
               <p className="subtask-description">{description}</p>
               <div className="subtask-info">
@@ -84,14 +116,15 @@ const SubTaskItem: React.FC<SubTaskItemProps> = ({
                 )}
               </div>
             </div>
+            {!completed && (
+              <button className="mark-complete" onClick={() => toggleSubtaskComplete(taskItemId, id)}>
+                Mark Complete
+              </button>
+            )}
           </div>
         )}
-        {!completed && id !== -1 && (
-          <button className="mark-complete" onClick={() => toggleSubtaskComplete(taskItemId, id)}>
-            Mark Complete
-          </button>
-        )}
       </div>
+
     </div>
   );
 };

@@ -57,6 +57,7 @@
   font-weight: 600;
   margin: 0.5rem 2rem;
   color: #333;
+  width: 75%;
     
 }
 
@@ -64,6 +65,7 @@
   margin: 0 0 0 1.1rem;
   font-size: 0.8rem;
   font-weight: 400;
+  min-width: 75px;
 }
 
 
@@ -71,9 +73,10 @@
   font-size: 0.9rem;
   color: #666;
   margin: 0.5rem 2rem;
+  width: 75%;
 }
 
-.subtask-completed-at, .subtask-updated-at {
+.subtask-updated-at {
   font-size: 0.8rem;
   color: #666;
   margin: 1rem 2rem 0 2rem;
@@ -82,6 +85,9 @@
 
 .subtask-completed-at {
   color: #4caf50;
+  font-size: 0.8rem;
+  margin: 1rem 2rem 0 2rem;
+  font-style: italic;
 }
 
 .subtask-delete {

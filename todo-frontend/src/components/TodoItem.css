@@ -55,6 +55,7 @@
   font-weight: 600;
   margin: 0.5rem 2rem;
   color: #333;
+  width: 75%;
 }
 
 
@@ -62,14 +63,16 @@
   margin: 0 0 0 1.1rem;
   font-size: 0.8rem;
   font-weight: 400;
+  min-width: 75px;
 }
 
 .todo-description { 
   font-size: 0.9rem;
   color: #666;
   margin: 0.5rem 2rem;
+  width: 75%;
 }
-.todo-updated-at, .completed-at {
+.todo-updated-at {
   font-size: 0.8rem;
   margin: 1rem 2rem 0 2rem;
   font-style: italic;
@@ -78,6 +81,9 @@
 
 .completed-at {
   color: #4caf50;
+  font-size: 0.8rem;
+  margin: 1rem 2rem 0 2rem;
+  font-style: italic;
 }
 
 .todo-delete {

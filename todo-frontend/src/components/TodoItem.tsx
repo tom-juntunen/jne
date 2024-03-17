@@ -42,7 +42,7 @@ const TodoItem: React.FC<TodoItemProps> = ({
         <div className="todo-text">
           <div className="todo-title">
             <h4>{title}</h4>
-            <span className="todo-updated-at">Updated {updatedAt ? formatUpdatedAt(updatedAt) : 'N/A'} ago</span>
+            <span className="todo-updated-at">{updatedAt ? formatUpdatedAt(updatedAt) : 'N/A'}</span>
           </div>
           <p className="todo-description">{description}</p>
           {completed && <p className="completed-at">Completed at: <span className="completed-time">{completedAt && new Date(completedAt).toLocaleString()}</span></p>}

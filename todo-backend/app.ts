@@ -118,20 +118,27 @@ app.post('/todos/:taskId/subtasks', async (req, res) => {
 
 app.put('/todos/:taskId/subtasks/:subTaskId', async (req, res) => {
   const { taskId, subTaskId } = req.params;
-  const { completed } = req.body;
-  const subtask = await SubTaskItem.findOne({ where: { id: subTaskId, taskItemId: taskId } });
-  
-  if (subtask) {
-    let updatedSubtask;
-    if (completed && !subtask.completedAt) {
-      updatedSubtask = await subtask.update({ completed, completedAt: new Date() });
-    } else {
-      updatedSubtask = await subtask.update({ completed });
+  const updates = req.body; // This now contains all fields that might be updated
+
+  try {
+    const subtask = await SubTaskItem.findOne({ where: { id: subTaskId, taskItemId: taskId } });
+
+    if (!subtask) {
+      return res.status(404).send('Subtask not found');
     }
+
+    // If the 'completed' field is being updated and it's being set to true,
+    // and if the subtask wasn't already marked as completed, update the completedAt field as well.
+    if (updates.completed && !subtask.completedAt) {
+      updates.completedAt = new Date();
+    }
+
+    const updatedSubtask = await subtask.update(updates);
     res.json(updatedSubtask);
-    io.emit('update_subtask', updatedSubtask); // Adjust this to suit how you're handling updates on the client
-  } else {
-    res.status(404).send('Subtask not found');
+    io.emit('update_subtask', updatedSubtask); // Notify all clients about the update
+  } catch (error) {
+    console.error('Error updating the subtask:', error);
+    res.status(500).send('Error updating the subtask');
   }
 });
 
