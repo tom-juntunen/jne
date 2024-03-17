@@ -1,5 +1,6 @@
 Step 1: Initialize Backend Node JS Express Server (port: 3000)
 
+Open a terminal and enter the following commands:
 ```
 cd todo-backend
 npm install
@@ -8,6 +9,7 @@ npm run dev
 
 Step 2: Initialize Frontend React project (port: 3001)
 
+Open a separate terminal and enter the following commands:
 ```
 cd todo-frontend
 npm install
