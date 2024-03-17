@@ -34,6 +34,11 @@ const TodoItem: React.FC<TodoItemProps> = ({
   return (
     <div className={itemClassName}>
       <div className="todo-content">
+        {!completed && (
+            <a className="todo-delete" onClick={() => deleteTodo(id)}>
+              <span className="todo-delete-x">X</span>
+            </a>
+          )}
         <div className="todo-text">
           <div className="todo-title">
             <h4>{title}</h4>
@@ -45,7 +50,6 @@ const TodoItem: React.FC<TodoItemProps> = ({
       </div>
       <div className="todo-action">
         <button className="todo-add-subtask" onClick={() => onAddSubtask(id)}>Add Subtask</button>
-        <button className="todo-delete" onClick={() => deleteTodo(id)}>Delete</button>
         {!completed && (
           <button className="mark-complete" onClick={() => toggleComplete(id)}>
             Mark Complete

@@ -80,18 +80,25 @@
   color: #4caf50;
 }
 
-.todo-delete, .todo-add-subtask {
-  padding: 0.5rem 1rem;
-  background-color: #e76f51;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
+.todo-delete {
+  position: absolute;
+  display: flex;
+  top: 0.5rem;  /* Adjust as needed */
+  left: 0.4rem; /* Adjust as needed */
+  color: #cac8c8; /* White text */
+  width: 0.5rem; /* Fixed width */
+  border-radius: 50%;
+  height: 0.5rem; /* Fixed height */
+  font-size: 0.8rem; /* Adjust the size of the 'X' */
+  line-height: 0.5rem; /* Centers the 'X' vertically */
+  text-align: center; /* Centers the 'X' horizontally */
   cursor: pointer;
+  padding: 5px;
   transition: background-color 0.2s ease-in-out;
 }
 
 .todo-delete:hover {
-  background-color: #cf6250;
+  background-color: #d9d9d980;
 }
 
 .todo-add-subtask {
