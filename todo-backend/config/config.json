@@ -3,5 +3,15 @@
     "storage": "./database.sqlite",
     "dialect": "sqlite",
     "logging": false
+  },
+  "test": {
+    "storage": "./database.sqlite",
+    "dialect": "sqlite",
+    "logging": false
+  },
+  "production": {
+    "storage": "./database.sqlite",
+    "dialect": "sqlite",
+    "logging": false
   }
 }

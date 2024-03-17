@@ -1,0 +1,30 @@
+{
+    "compilerOptions": {
+      "target": "es6",
+      "lib": [
+        "dom",
+        "dom.iterable",
+        "esnext"
+      ],
+      "allowJs": true,
+      "types": ["node"],
+      "skipLibCheck": true,
+      "esModuleInterop": true,
+      "allowSyntheticDefaultImports": true,
+      "strict": true,
+      "forceConsistentCasingInFileNames": true,
+      "noFallthroughCasesInSwitch": true,
+      "module": "commonjs",
+      "moduleResolution": "node",
+      "resolveJsonModule": true,
+      "isolatedModules": true,
+      "noEmit": true,
+      "baseUrl": "./", // Base directory to resolve non-relative module names
+      "paths": {
+        "*": ["src/*"] // Specify paths mappings for modules, assuming all source in src/
+      }
+    },
+    "include": ["**/*"],
+    "exclude": ["node_modules"]
+  }
+  
