@@ -65,9 +65,14 @@ const SubTaskItem: React.FC<SubTaskItemProps> = ({
           </div>
         ) : (
           <div className="subtask-content">
+            {!completed && (
+                <a className="subtask-delete" onClick={() => deleteSubTask(taskItemId, id)}>
+                  <span className="subtask-delete-x">X</span>
+                </a>
+              )}
             <div className="subtask-text">
               <div className="subtask-title">
-                <h3>{title}</h3>
+                <h4>{title}</h4>
                 <span className="subtask-updated-at">Updated {updatedAt ? formatUpdatedAt(updatedAt) : 'N/A'} ago</span>
               </div>
               <p className="subtask-description">{description}</p>
@@ -81,16 +86,11 @@ const SubTaskItem: React.FC<SubTaskItemProps> = ({
             </div>
           </div>
         )}
-        <div className="subtask-action">
-        {!completed && (<button className="subtask-delete" onClick={() => deleteSubTask(taskItemId, id)}>
-            Delete
-          </button>)}
-        {!completed && (
-              <button className="mark-complete" onClick={() => toggleSubtaskComplete(taskItemId, id)}>
-                Mark Complete
-              </button>
-            )}
-        </div>
+        {!completed && id !== -1 && (
+          <button className="mark-complete" onClick={() => toggleSubtaskComplete(taskItemId, id)}>
+            Mark Complete
+          </button>
+        )}
       </div>
     </div>
   );

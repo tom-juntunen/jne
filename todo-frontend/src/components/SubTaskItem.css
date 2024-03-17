@@ -7,7 +7,7 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin-bottom: 1rem;
   margin-left: 3rem;
-  padding: 0.5rem;
+  padding: 1rem;
   transition: box-shadow 0.2s ease-in-out;
 }
 
@@ -26,7 +26,7 @@
 .mark-complete {
   position: absolute;
   top: 1rem;
-  right: 1rem;
+  right: 0.5rem;
   padding: 0.5rem 1rem;
   background-color: #4caf50;
   color: #fff;
@@ -46,23 +46,22 @@
 
 .subtask-action {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  align-items: right;
   margin-top: 1rem; /* Space between content and actions */
 }
 
 .subtask-title {
   display: flex;
   flex-direction: row;
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: 600;
-  margin: 0.5rem 1rem;
+  margin: 0.5rem 2rem;
   color: #333;
     
 }
 
 .subtask-title span {
-  margin: 1.9rem 1.1rem;
+  margin: 0 0 0 1.1rem;
   font-size: 0.8rem;
   font-weight: 400;
 }
@@ -85,17 +84,29 @@
   color: #4caf50;
 }
 
-
 .subtask-delete {
-  padding: 0.5rem 1rem;
-  background-color: #ff5252;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
+  position: absolute;
+  display: flex;
+  top: 0.5rem;  /* Adjust as needed */
+  left: 0.4rem; /* Adjust as needed */
+  color: #cac8c8; /* White text */
+  width: 0.5rem; /* Fixed width */
+  border-radius: 50%;
+  height: 0.5rem; /* Fixed height */
+  font-size: 0.8rem; /* Adjust the size of the 'X' */
+  line-height: 0.5rem; /* Centers the 'X' vertically */
+  text-align: center; /* Centers the 'X' horizontally */
   cursor: pointer;
+  padding: 5px;
   transition: background-color 0.2s ease-in-out;
 }
 
+.subtask-delete-x {
+  height: 100%;
+  width: 100%;
+  margin: 0 0 15px 0;
+}
+
 .subtask-delete:hover {
-  background-color: #ff1744;
+  background-color: #d9d9d980;
 }

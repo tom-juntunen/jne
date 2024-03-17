@@ -7,6 +7,11 @@ body {
   padding: 20px;
 }
 
+h4 {
+  margin: 0;
+}
+
+
 input, button {
   font-family: inherit;
   padding: 10px;
@@ -67,7 +72,7 @@ button:hover {
 }
 
 .app-button {
-  background: #007bff;
+  background: #2a9d8f;
   max-width: 200px;
   color: white;
   cursor: pointer;
@@ -75,7 +80,7 @@ button:hover {
 }
 
 .app-button:hover {
-  background: #0056b3;
+  background: #21867a;
 }
 
 .app-button.add-todo {

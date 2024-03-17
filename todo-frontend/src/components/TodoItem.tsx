@@ -36,7 +36,7 @@ const TodoItem: React.FC<TodoItemProps> = ({
       <div className="todo-content">
         <div className="todo-text">
           <div className="todo-title">
-            <h3>{title}</h3>
+            <h4>{title}</h4>
             <span className="todo-updated-at">Updated {updatedAt ? formatUpdatedAt(updatedAt) : 'N/A'} ago</span>
           </div>
           <p className="todo-description">{description}</p>

@@ -25,9 +25,9 @@
 .mark-complete {
   position: absolute;
   top: 1rem;
-  right: 1rem;
+  right: 0.5rem;
   padding: 0.5rem 1rem;
-  background-color: #4caf50;
+  background-color: #2a9d8f;
   color: #fff;
   border: none;
   border-radius: 5px;
@@ -36,7 +36,7 @@
 }
 
 .mark-complete:hover {
-  background-color: #388e3c;
+  background-color: #21867a;
 }
 
 .todo-text {
@@ -45,22 +45,21 @@
 
 .todo-action {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   margin-top: 1rem; /* Space between content and actions */
 }
 
 .todo-title {
   display: flex;
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: 600;
-  margin: 0.5rem 1rem;
+  margin: 0.5rem 2rem;
   color: #333;
 }
 
 
 .todo-title span {
-  margin: 1.9rem 1.1rem;
+  margin: 0 0 0 1.1rem;
   font-size: 0.8rem;
   font-weight: 400;
 }
@@ -83,7 +82,7 @@
 
 .todo-delete, .todo-add-subtask {
   padding: 0.5rem 1rem;
-  background-color: #ff5252;
+  background-color: #e76f51;
   color: #fff;
   border: none;
   border-radius: 5px;
@@ -92,17 +91,17 @@
 }
 
 .todo-delete:hover {
-  background-color: #ff1744;
+  background-color: #cf6250;
 }
 
 .todo-add-subtask {
-  background-color: #fff;
-  color: #000;
+  background-color: #e9c46a;
+  color: white;
   margin: 0 0 0 2rem;
   border: 0.3px solid #dbdbdb;
   transition: background-color 0.2s ease-in-out;
 }
 
 .todo-add-subtask:hover {
-  background-color: #acacac;
+  background-color: #d3a95c;
 }
