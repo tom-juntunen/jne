@@ -385,7 +385,9 @@ const App: React.FC = () => {
               </div>
   
               {/* Render SubTaskItem if it's a subtask and either uncompleted or we're showing completed items */}
-              {todo.subTasks && todo.subTasks.map((subtask) => (
+              {todo.subTasks && todo.subTasks
+                .filter(subtask => showCompleted || !subtask.completed) // Filters based on the showCompleted state
+                .map((subtask) => (
                 <div id={`todo-${todo.id}-${subtask.id}`} className="subtask-item-container">
                   <SubTaskItem
                     id={subtask.id}
