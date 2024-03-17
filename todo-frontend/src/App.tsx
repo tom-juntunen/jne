@@ -1,6 +1,8 @@
 // src/App.tsx
 import React, { useState, useEffect } from 'react';
 import io from 'socket.io-client';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import TodoItem from './components/TodoItem';
 import SubTaskItem from './components/SubTaskItem'; // Import SubTaskItem component
 import './App.css';
@@ -40,6 +42,13 @@ const App: React.FC = () => {
   const [description, setDescription] = useState('');
   const [showCompleted, setShowCompleted] = useState(false);
   const [addingSubtaskId, setAddingSubtaskId] = useState<number | null>(null);
+
+  // Function to scroll to new todo subtask
+  const scrollToNewSubTask = (todoId: number, subTaskId: number) => {
+    console.log('looking for element with id', `todo-${todoId}-${subTaskId}`);
+    const element = document.getElementById(`todo-${todoId}-${subTaskId}`);
+    element?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   useEffect(() => {
     const fetchTodosAndSubtasks = async () => {
@@ -96,6 +105,15 @@ const App: React.FC = () => {
         }
         return todo;
       }));
+      toast.info('New subtask added!', {
+        position: "top-center",
+        autoClose: false,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        onClick: () => scrollToNewSubTask(newSubtask.taskItemId, newSubtask.id)
+      });
     };
 
     const handleUpdatedSubtask = (updatedSubtask: SubTaskItemData) => {
@@ -284,7 +302,8 @@ const App: React.FC = () => {
     .then(response => response.json())
     .then(newSubtask => {
       // Emit the new subtask to the server using socket.io
-      socket.emit('new_subtask', newSubtask);
+      socket.emit('new_subtask', newSubtask); 
+      // TODO: Update the new subtask and other emits that require downstream toast notifications to include a clientId such that the creator doesn't get the notification but others do.
     })
     .catch(error => {
       console.error('Failed to add new subtask', error);
@@ -299,6 +318,7 @@ const App: React.FC = () => {
 
   return (
     <div className="app-container">
+      <ToastContainer />
       <div className="app-summary">
         <p>Total Todos: {todos.length}</p>
         <p>Total Completed: {todos.filter((todo) => todo.completed).length}</p>
@@ -332,51 +352,55 @@ const App: React.FC = () => {
           return (
             <React.Fragment key={todo.id}>
               {/* Render TodoItem */}
-              <TodoItem
-                  id={todo.id}
-                  title={todo.title}
-                  description={todo.description}
-                  completed={todo.completed}
-                  completedAt={todo.completedAt}
-                  createdAt={todo.createdAt}
-                  updatedAt={todo.updatedAt}
-                  onAddSubtask={handleAddSubtaskClick}
-                  toggleComplete={toggleComplete}
-                  deleteTodo={deleteTodo}
-                />
-  
-              {/* Conditionally render the SubTaskItem for adding a new subtask */}
-              {isAddingSubtask && (
-                <SubTaskItem
-                  key={`adding-${todo.id}`}
-                  id={-1} // Temporary ID for the new subtask
-                  title=""
-                  description=""
-                  completed={false}
-                  taskItemId={todo.id}
-                  toggleSubtaskComplete={() => {}} // No-op for new subtask
-                  deleteSubTask={() => {}} // No-op for new subtask
-                  onAddSubtaskSubmit={handleAddSubtaskSubmit}
-                  onCancelAddSubtask={handleCancelAddSubtask}
-                />
-              )}
+              <div id={`todo-${todo.id}`} className="todo-item-container">
+                <TodoItem
+                    key={`todo-${todo.id}`}
+                    id={todo.id}
+                    title={todo.title}
+                    description={todo.description}
+                    completed={todo.completed}
+                    completedAt={todo.completedAt}
+                    createdAt={todo.createdAt}
+                    updatedAt={todo.updatedAt}
+                    onAddSubtask={handleAddSubtaskClick}
+                    toggleComplete={toggleComplete}
+                    deleteTodo={deleteTodo}
+                  />
+    
+                {/* Conditionally render the SubTaskItem for adding a new subtask */}
+                {isAddingSubtask && (
+                  <SubTaskItem
+                    key={`add-todo-${todo.id}`}
+                    id={-1} // Temporary ID for the new subtask
+                    title=""
+                    description=""
+                    completed={false}
+                    taskItemId={todo.id}
+                    toggleSubtaskComplete={() => {}} // No-op for new subtask
+                    deleteSubTask={() => {}} // No-op for new subtask
+                    onAddSubtaskSubmit={handleAddSubtaskSubmit}
+                    onCancelAddSubtask={handleCancelAddSubtask}
+                  />
+                )}
+              </div>
   
               {/* Render SubTaskItem if it's a subtask and either uncompleted or we're showing completed items */}
               {todo.subTasks && todo.subTasks.map((subtask) => (
-                <SubTaskItem
-                  key={`${todo.id}-${subtask.id}`}
-                  id={subtask.id}
-                  title={subtask.title}
-                  description={subtask.description}
-                  completed={subtask.completed}
-                  completedAt={subtask.completedAt}
-                  updatedAt={subtask.updatedAt}
-                  createdAt={subtask.createdAt}
-                  taskItemId={todo.id}
-                  toggleSubtaskComplete={toggleSubtaskComplete}
-                  deleteSubTask={deleteSubTask}
-                  onCancelAddSubtask={() => {}}
-                />
+                <div id={`todo-${todo.id}-${subtask.id}`} className="subtask-item-container">
+                  <SubTaskItem
+                    id={subtask.id}
+                    title={subtask.title}
+                    description={subtask.description}
+                    completed={subtask.completed}
+                    completedAt={subtask.completedAt}
+                    updatedAt={subtask.updatedAt}
+                    createdAt={subtask.createdAt}
+                    taskItemId={todo.id}
+                    toggleSubtaskComplete={toggleSubtaskComplete}
+                    deleteSubTask={deleteSubTask}
+                    onCancelAddSubtask={() => {}}
+                  />
+                </div>
               ))}
             </React.Fragment>
           );
