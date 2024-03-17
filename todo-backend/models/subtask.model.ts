@@ -1,6 +1,7 @@
 // src/models/subtask.model.ts
 import { DataTypes, Model } from 'sequelize';
 import sequelize from '../database';
+import { BaseModel, baseModelFields } from './base.model';
 
 export interface SubTaskItemAttributes {
   id?: number;
@@ -11,7 +12,7 @@ export interface SubTaskItemAttributes {
   taskItemId: number; // Parent task id
 }
 
-export class SubTaskItem extends Model<SubTaskItemAttributes> implements SubTaskItemAttributes {
+export class SubTaskItem extends BaseModel implements SubTaskItemAttributes {
   public id!: number;
   public title!: string;
   public description!: string;
@@ -21,6 +22,7 @@ export class SubTaskItem extends Model<SubTaskItemAttributes> implements SubTask
 }
 
 SubTaskItem.init({
+  ...baseModelFields,
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,

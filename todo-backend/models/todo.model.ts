@@ -1,6 +1,7 @@
 // models/todo.model.ts
 import { DataTypes, Model } from 'sequelize';
 import sequelize from '../database';
+import { BaseModel, baseModelFields } from './base.model';
 
 export interface TodoItemAttributes {
   id?: number;
@@ -10,7 +11,7 @@ export interface TodoItemAttributes {
   completedAt?: Date | null;
 }
 
-export class TodoItem extends Model<TodoItemAttributes> implements TodoItemAttributes {
+export class TodoItem extends BaseModel implements TodoItemAttributes {
   public id!: number;
   public title!: string;
   public description!: string;
@@ -19,6 +20,7 @@ export class TodoItem extends Model<TodoItemAttributes> implements TodoItemAttri
 }
 
 TodoItem.init({
+  ...baseModelFields,
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
