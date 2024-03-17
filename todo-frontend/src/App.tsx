@@ -14,6 +14,8 @@ interface SubTaskItemData {
   completed: boolean;
   completedAt?: Date;
   taskItemId: number; 
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 interface TodoItemData {
@@ -22,6 +24,8 @@ interface TodoItemData {
   description: string;
   completed: boolean;
   completedAt?: Date;
+  createdAt: Date;
+  updatedAt: Date;
   subTasks?: SubTaskItemData[]; 
 }
 
@@ -294,29 +298,33 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="container">
-      <div className="summary">
+    <div className="app-container">
+      <div className="app-summary">
         <p>Total Todos: {todos.length}</p>
         <p>Total Completed: {todos.filter((todo) => todo.completed).length}</p>
       </div>
-      <input
-        type="text"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        placeholder="Title"
-      />
-      <input
-        type="text"
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-        placeholder="Description"
-      />
-      <button onClick={addTodo}>Add Todo</button>
-      <button onClick={toggleShowCompleted}>
+      <div className="app-form">
+        <input
+          type="text"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          placeholder="Title"
+          className="app-input"
+        />
+        <input
+          type="text"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          placeholder="Description"
+          className="app-input"
+        />
+      </div>
+      <button onClick={addTodo} className="app-button add-todo">Add Todo</button>
+      <button onClick={toggleShowCompleted} className="app-button show-completed">
         {showCompleted ? 'Hide Completed' : 'Show Completed'}
       </button>
   
-      {todos.map((todo, index) => {
+      {todos.sort((a, b) => new Date(b.updatedAt).valueOf() - new Date(a.updatedAt).valueOf()).map((todo, index) => {
         // Determine if we should show this item based on completion state and showCompleted toggle
         if (showCompleted || !todo.completed) {
           const isAddingSubtask = addingSubtaskId === todo.id;
@@ -330,6 +338,8 @@ const App: React.FC = () => {
                   description={todo.description}
                   completed={todo.completed}
                   completedAt={todo.completedAt}
+                  createdAt={todo.createdAt}
+                  updatedAt={todo.updatedAt}
                   onAddSubtask={handleAddSubtaskClick}
                   toggleComplete={toggleComplete}
                   deleteTodo={deleteTodo}
@@ -360,6 +370,8 @@ const App: React.FC = () => {
                   description={subtask.description}
                   completed={subtask.completed}
                   completedAt={subtask.completedAt}
+                  updatedAt={subtask.updatedAt}
+                  createdAt={subtask.createdAt}
                   taskItemId={todo.id}
                   toggleSubtaskComplete={toggleSubtaskComplete}
                   deleteSubTask={deleteSubTask}
@@ -374,6 +386,7 @@ const App: React.FC = () => {
         return null;
       })}
     </div>
+    
   );
 };
 

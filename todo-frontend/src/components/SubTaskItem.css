@@ -1,60 +1,101 @@
-/* src/components/SubTaskItem.css */
 .subtask-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-bottom: 1rem;
-    padding: 1rem;
-    transition: box-shadow 0.2s ease-in-out;
-  }
-  
-  .subtask-item:hover {
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-  }
-  
-  .subtask-toggle {
-    margin-right: 1rem;
-    accent-color: #4caf50;
-  }
-  
-  .subtask-text {
-    flex-grow: 1;
-    overflow: hidden;
-  }
-  
-  .subtask-title {
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: #333;
-    margin: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-  
-  .subtask-description {
-    color: #666;
-    font-size: 1rem;
-    margin-top: 0.5rem;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-  
-  .subtask-delete {
-    padding: 0.5rem 1rem;
-    background-color: #ff5252;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.2s ease-in-out;
-  }
-  
-  .subtask-delete:hover {
-    background-color: #ff1744;
-  }
-  
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem;
+  margin-left: 3rem;
+  padding: 0.5rem;
+  transition: box-shadow 0.2s ease-in-out;
+}
+
+.subtask-item:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.subtask-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex-grow: 1;
+}
+
+.mark-complete {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.mark-complete:hover {
+  background-color: #388e3c;
+}
+
+.subtask-text {
+  margin-bottom: auto; /* Pushes actions to the bottom */
+}
+
+.subtask-action {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem; /* Space between content and actions */
+}
+
+.subtask-title {
+  display: flex;
+  flex-direction: row;
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0.5rem 1rem;
+  color: #333;
+    
+}
+
+.subtask-title span {
+  margin: 1.9rem 1.1rem;
+  font-size: 0.8rem;
+  font-weight: 400;
+}
+
+
+.subtask-description {
+  font-size: 0.9rem;
+  color: #666;
+  margin: 0.5rem 2rem;
+}
+
+.subtask-completed-at, .subtask-updated-at {
+  font-size: 0.8rem;
+  color: #666;
+  margin: 1rem 2rem 0 2rem;
+  font-style: italic;
+}
+
+.subtask-completed-at {
+  color: #4caf50;
+}
+
+
+.subtask-delete {
+  padding: 0.5rem 1rem;
+  background-color: #ff5252;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.subtask-delete:hover {
+  background-color: #ff1744;
+}

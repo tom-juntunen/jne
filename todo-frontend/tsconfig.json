@@ -18,9 +18,15 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "baseUrl": "./", // Base directory to resolve non-relative module names
+    "paths": {
+      "*": ["src/*"] // Specify paths mappings for modules, assuming all source in src/
+    }
+ 
   },
   "include": [
     "src"
-  ]
+  ],
+  "exclude": ["node_modules"]
 }

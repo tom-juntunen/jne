@@ -10,7 +10,7 @@ body {
 input, button {
   font-family: inherit;
   padding: 10px;
-  margin: 5px 0;
+  margin: 5px;
   border: none;
   border-radius: 5px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -32,28 +32,56 @@ button:hover {
   background: #0056b3;
 }
 
-.card {
-  background: white;
-  margin-bottom: 10px;
-  padding: 15px;
-  border-radius: 5px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: box-shadow 0.3s ease;
-}
-
-.card:hover {
-  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
-}
-
-.card.completed {
-  opacity: 0.7;
-}
-
-.container {
-  max-width: 600px;
+.app-container {
+  max-width: 800px;
   margin: 30px auto;
   padding: 20px;
   background: #ffffff;
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.app-summary {
+  font-size: 1rem;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.app-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.app-input, .app-button {
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #dcdcdc;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.app-input {
+  width: 100%; /* Adjust width for padding */
+  box-sizing: border-box;
+}
+
+.app-button {
+  background: #007bff;
+  max-width: 200px;
+  color: white;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.app-button:hover {
+  background: #0056b3;
+}
+
+.app-button.add-todo {
+  background: #28a745; /* A green shade for add button */
+}
+
+.app-button.show-completed {
+  background: #17a2b8; /* A lighter blue shade for toggling completed todos */
 }

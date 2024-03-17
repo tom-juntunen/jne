@@ -1,6 +1,6 @@
-// src/components/SubTaskItem.tsx
 import React, { useState } from 'react';
 import './SubTaskItem.css';
+import { formatUpdatedAt } from '../util/dates'
 
 interface SubTaskItemProps {
   id: number;
@@ -8,11 +8,13 @@ interface SubTaskItemProps {
   description: string;
   completed: boolean;
   completedAt?: Date;
-  taskItemId: number; // Parent task id
+  createdAt?: Date;
+  updatedAt?: Date;
+  taskItemId: number;
   toggleSubtaskComplete: (taskItemId: number, id: number) => void;
   deleteSubTask: (taskItemId: number, id: number) => void;
   onCancelAddSubtask: () => void;
-  onAddSubtaskSubmit?: (title: string, description: string, taskItemId: number) => void; // New prop for submitting the subtask
+  onAddSubtaskSubmit?: (title: string, description: string, taskItemId: number) => void;
 }
 
 const SubTaskItem: React.FC<SubTaskItemProps> = ({
@@ -21,68 +23,75 @@ const SubTaskItem: React.FC<SubTaskItemProps> = ({
   description,
   completed,
   completedAt,
+  createdAt,
+  updatedAt,
   taskItemId,
   toggleSubtaskComplete,
   deleteSubTask,
   onCancelAddSubtask,
-  onAddSubtaskSubmit // Destructure the new prop
+  onAddSubtaskSubmit
 }) => {
   const [newTitle, setNewTitle] = useState('');
   const [newDescription, setNewDescription] = useState('');
   const itemClassName = `subtask-item${completed ? ' completed' : ''}`;
 
-  // Handler for when the add subtask form is submitted
   const handleSubmit = () => {
     if (onAddSubtaskSubmit && taskItemId != null) {
       onAddSubtaskSubmit(newTitle, newDescription, taskItemId);
-      setNewTitle(''); // Reset the title
-      setNewDescription(''); // Reset the description
+      setNewTitle('');
+      setNewDescription('');
     }
   };
 
   return (
     <div className={itemClassName}>
-      {/* Conditional rendering for adding a new subtask */}
-      {id === -1 ? (
-        <div className="subtask-add-form">
-          <input
-            type="text"
-            value={newTitle}
-            onChange={(e) => setNewTitle(e.target.value)}
-            placeholder="Subtask title"
-          />
-          <input
-            type="text"
-            value={newDescription}
-            onChange={(e) => setNewDescription(e.target.value)}
-            placeholder="Subtask description"
-          />
-          <button onClick={handleSubmit}>Add Subtask</button>
-          <button onClick={onCancelAddSubtask}>Cancel</button>
-        </div>
-      ) : (
-        // Existing subtask display
-        <div className="subtask-content">
-          <h3 className="subtask-title">{title}</h3>
-          <p className="subtask-description">{description}</p>
-          <div className="subtask-info">
-            {completed && (
-              <p className="completed-at">
-                Completed at: <span className="completed-time">{completedAt && new Date(completedAt).toLocaleString()}</span>
-              </p>
-            )}
+      <div className="subtask-wrapper">
+        {id === -1 ? (
+          <div className="subtask-add-form">
             <input
-              type="checkbox"
-              className="subtask-toggle"
-              checked={completed}
-              onChange={() => toggleSubtaskComplete(taskItemId, id)}
+              type="text"
+              value={newTitle}
+              onChange={(e) => setNewTitle(e.target.value)}
+              placeholder="Subtask title"
             />
-            <button className="subtask-delete" onClick={() => deleteSubTask(taskItemId, id)}>
-              Delete Subtask
-            </button>
+            <input
+              type="text"
+              value={newDescription}
+              onChange={(e) => setNewDescription(e.target.value)}
+              placeholder="Subtask description"
+            />
+            <button style={{ maxWidth: '150px' }} onClick={handleSubmit}>Add Subtask</button>
+            <button onClick={onCancelAddSubtask}>Cancel</button>
           </div>
+        ) : (
+          <div className="subtask-content">
+            <div className="subtask-text">
+              <div className="subtask-title">
+                <h3>{title}</h3>
+                <span className="subtask-updated-at">Updated {updatedAt ? formatUpdatedAt(updatedAt) : 'N/A'} ago</span>
+              </div>
+              <p className="subtask-description">{description}</p>
+              <div className="subtask-info">
+                {completed && (
+                  <div className="subtask-completed-at">
+                    <p>Completed at: <span className="subtask-completed-time">{completedAt && new Date(completedAt).toLocaleString()}</span></p>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+        <div className="subtask-action">
+        {!completed && (<button className="subtask-delete" onClick={() => deleteSubTask(taskItemId, id)}>
+            Delete
+          </button>)}
+        {!completed && (
+              <button className="mark-complete" onClick={() => toggleSubtaskComplete(taskItemId, id)}>
+                Mark Complete
+              </button>
+            )}
         </div>
-      )}
+      </div>
     </div>
   );
 };

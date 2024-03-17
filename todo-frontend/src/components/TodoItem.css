@@ -1,14 +1,12 @@
-/* TodoItem.css */
 .todo-item {
-  position: relative; /* Set position relative for absolute positioning */
+  position: relative;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin-bottom: 1rem;
-  padding: 1rem; /* Add padding for better spacing */
+  padding: 0.5rem;
   transition: box-shadow 0.2s ease-in-out;
 }
 
@@ -16,48 +14,74 @@
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
-.todo-toggle {
-  margin-right: 1rem;
-  accent-color: #4caf50;
-}
-
-.todo-text {
+.todo-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   flex-grow: 1;
 }
 
+.mark-complete {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.mark-complete:hover {
+  background-color: #388e3c;
+}
+
+.todo-text {
+  margin-bottom: auto; /* Pushes actions to the bottom */
+}
+
+.todo-action {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem; /* Space between content and actions */
+}
+
 .todo-title {
+  display: flex;
   font-size: 1.2rem;
   font-weight: 600;
+  margin: 0.5rem 1rem;
   color: #333;
-  margin: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
-.todo-description {
+
+.todo-title span {
+  margin: 1.9rem 1.1rem;
+  font-size: 0.8rem;
+  font-weight: 400;
+}
+
+.todo-description { 
+  font-size: 0.9rem;
   color: #666;
-  font-size: 1rem;
-  margin-top: 0.5rem;
+  margin: 0.5rem 2rem;
 }
-
-.todo-info {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
+.todo-updated-at, .completed-at {
+  font-size: 0.8rem;
+  margin: 1rem 2rem 0 2rem;
+  font-style: italic;
+  color: #666;
 }
 
 .completed-at {
-  font-size: 0.8rem;
-  color: #4caf50; /* Green text */
-  font-style: italic; /* Italicized */
+  color: #4caf50;
 }
 
-.completed-time {
-  margin-left: 0.5rem; /* Add some margin */
-}
-
-.todo-delete {
+.todo-delete, .todo-add-subtask {
   padding: 0.5rem 1rem;
   background-color: #ff5252;
   color: #fff;
@@ -72,16 +96,13 @@
 }
 
 .todo-add-subtask {
-  padding: 0.5rem 1rem;
-  margin-left: 1rem; /* Add margin if needed */
-  background-color: #4caf50;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+  background-color: #fff;
+  color: #000;
+  margin: 0 0 0 2rem;
+  border: 0.3px solid #dbdbdb;
   transition: background-color 0.2s ease-in-out;
 }
 
 .todo-add-subtask:hover {
-  background-color: #43a047; /* Slightly darker shade on hover */
+  background-color: #acacac;
 }
