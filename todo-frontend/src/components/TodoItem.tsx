@@ -1,7 +1,6 @@
 import React from 'react';
 import './TodoItem.css';
 import { formatUpdatedAt } from '../util/dates';
-import { BsCheckCircle } from 'react-icons/bs';
 
 interface TodoItemProps {
   id: number;
@@ -50,7 +49,7 @@ const TodoItem: React.FC<TodoItemProps> = ({
         </div>
         {!completed && (
           <button className="mark-complete" onClick={() => toggleComplete(id)}>
-            <BsCheckCircle />
+            ✓
           </button>
         )}
       </div>

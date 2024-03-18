@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import './SubTaskItem.css';
 import { formatUpdatedAt } from '../util/dates';
-import { BsCheckCircle } from 'react-icons/bs';
 
 interface SubTaskItemProps {
   id: number;
@@ -120,7 +119,7 @@ const SubTaskItem: React.FC<SubTaskItemProps> = ({
             </div>
               {!completed && (
                   <button className="subtask-mark-complete" onClick={() => toggleSubtaskComplete(taskItemId, id)}>
-                    <BsCheckCircle />
+                    ✓
                   </button>
                 )}
               <hr className="subtask-divider-horizontal" />
