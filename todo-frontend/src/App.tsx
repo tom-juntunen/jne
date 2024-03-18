@@ -32,7 +32,7 @@ interface TodoItemData {
 }
 
 interface DeletedSubTaskItemData {
-  taskId: number;
+  taskItemId: number;
   subTaskId: number;
 }
 
@@ -45,7 +45,6 @@ const App: React.FC = () => {
 
   // Function to scroll to new todo subtask
   const scrollToNewSubTask = (todoId: number, subTaskId: number) => {
-    console.log('looking for element with id', `todo-${todoId}-${subTaskId}`);
     const element = document.getElementById(`todo-${todoId}-${subTaskId}`);
     element?.scrollIntoView({ behavior: 'smooth' });
   };
@@ -88,10 +87,10 @@ const App: React.FC = () => {
     };
 
     const handleDeleteTodo = (todoId: number) => {
-      console.log(`Handling delete for todo with id: ${todoId}`);
-      setTodos(prevTodos =>
-        prevTodos.filter(todo => todo.id !== todoId)
-      );
+      setTodos(prevTodos => {
+        const updatedTodos = prevTodos.filter(todo => todo.id !== todoId);
+        return updatedTodos;
+      });
     };
 
     const handleNewSubtask = (newSubtask: SubTaskItemData) => {
@@ -132,10 +131,13 @@ const App: React.FC = () => {
     };
     
     const handleDeleteSubtask = (data: DeletedSubTaskItemData) => {
+      const { taskItemId, subTaskId } = data;
+      const numericTaskId = Number(taskItemId);
+      const numericSubTaskId = Number(subTaskId);
+    
       setTodos(prevTodos => prevTodos.map(todo => {
-        if (todo.id === data.taskId) {
-          // Filter out the deleted subtask from the parent todo's subTasks array
-          const updatedSubTasks = todo.subTasks?.filter(subtask => subtask.id !== data.subTaskId);
+        if (todo.id === numericTaskId) {
+          const updatedSubTasks = todo.subTasks?.filter(subtask => subtask.id !== numericSubTaskId);
           return { ...todo, subTasks: updatedSubTasks };
         }
         return todo;
@@ -197,16 +199,16 @@ const App: React.FC = () => {
     });
   };
 
-  const toggleSubtaskComplete = (taskId: number, subTaskId: number) => {
+  const toggleSubtaskComplete = (taskItemId: number, subTaskId: number) => {
     // Find the parent task
-    const parentTask = todos.find((t: TodoItemData) => t.id === taskId);
+    const parentTask = todos.find((t: TodoItemData) => t.id === taskItemId);
     if (!parentTask || !parentTask.subTasks) return;
   
     // Find the subtask within the parent task
     const subtask = parentTask.subTasks.find((st: SubTaskItemData) => st.id === subTaskId);
     if (!subtask) return;
   
-    fetch(`http://localhost:3000/todos/${taskId}/subtasks/${subTaskId}`, {
+    fetch(`http://localhost:3000/todos/${taskItemId}/subtasks/${subTaskId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -216,7 +218,7 @@ const App: React.FC = () => {
     .then(response => response.json())
     .then(updatedSubtask => {
       setTodos((prevTodos) => prevTodos.map((t) => {
-        if (t.id === taskId) {
+        if (t.id === taskItemId) {
           return {
             ...t,
             subTasks: t.subTasks?.map(st => {
@@ -236,16 +238,12 @@ const App: React.FC = () => {
   };
 
   const deleteTodo = (id: number) => {
-    console.log(`Attempting to delete todo with id: ${id}`);
     fetch(`http://localhost:3000/todos/${id}`, {
       method: 'DELETE',
     })
     .then(response => {
       if (response.ok) {
-        // Update todos state after successful deletion
         setTodos(prevTodos => prevTodos.filter(todo => todo.id !== id));
-        // Emit event to update UI after successful deletion
-        socket.emit('delete_todo', id);
       } else {
         console.error('Failed to delete todo');
       }
@@ -255,24 +253,21 @@ const App: React.FC = () => {
     });
   };
 
-  const deleteSubTask = (taskId: number, subTaskId: number) => {
-    console.log(`Attempting to delete subtask with task id: ${taskId} and subtask id: ${subTaskId}`);
-    fetch(`http://localhost:3000/todos/${taskId}/subtasks/${subTaskId}`, {
+  const deleteSubTask = (taskItemId: number, subTaskId: number) => {
+    fetch(`http://localhost:3000/todos/${taskItemId}/subtasks/${subTaskId}`, {
       method: 'DELETE',
     })
     .then(response => {
       if (response.ok) {
         // If the deletion was successful, update the state to remove the subtask
         setTodos(prevTodos => prevTodos.map(todo => {
-          if (todo.id === taskId) {
+          if (todo.id === taskItemId) {
             // Filter out the subtask that's being deleted
             const updatedSubtasks = todo.subTasks?.filter(subtask => subtask.id !== subTaskId) ?? [];
             return { ...todo, subTasks: updatedSubtasks };
           }
           return todo;
         }));
-        // Emit event to update UI after successful deletion
-        socket.emit('delete_subtask', { taskId, subTaskId });
       } else {
         console.error('Failed to delete subtask');
       }
@@ -300,11 +295,6 @@ const App: React.FC = () => {
       body: JSON.stringify({ title, description }), // Send title and description in the request body
     })
     .then(response => response.json())
-    .then(newSubtask => {
-      // Emit the new subtask to the server using socket.io
-      socket.emit('new_subtask', newSubtask); 
-      // TODO: Update the new subtask and other emits that require downstream toast notifications to include a clientId such that the creator doesn't get the notification but others do.
-    })
     .catch(error => {
       console.error('Failed to add new subtask', error);
     });
@@ -313,7 +303,6 @@ const App: React.FC = () => {
   };
 
   const handleUpdateSubtask = (title: string, description: string, taskItemId: number, subtaskId: number) => {
-    console.log('sending request to backend')
     fetch(`http://localhost:3000/todos/${taskItemId}/subtasks/${subtaskId}`, {
       method: 'PUT',
       headers: {
@@ -322,11 +311,6 @@ const App: React.FC = () => {
       body: JSON.stringify({ title, description }), // Send title and description in the request body
     })
     .then(response => response.json())
-    .then(updatedSubtask => {
-      // Emit the new subtask to the server using socket.io
-      socket.emit('update_subtask', updatedSubtask); 
-      // TODO: Update the new subtask and other emits that require downstream toast notifications to include a clientId such that the creator doesn't get the notification but others do.
-    })
     .catch(error => {
       console.error('Failed to update subtask', error);
     });

@@ -32,26 +32,6 @@ io.on('connection', (socket: Socket) => {
   socket.on('disconnect', () => {
     console.log('user disconnected');
   });
-  
-  // Listen for updates from clients and broadcast to all connected
-  socket.on('update_todo', (todo: TodoItem) => {
-    io.emit('update_todo', todo);
-  });
-
-  // Listen for delete events from clients and broadcast to all connected
-  socket.on('delete_todo', (id: number) => {
-    io.emit('delete_todo', id);
-  });
-
-  // Listen for updates to subtasks from clients and broadcast to all connected
-  socket.on('update_subtask', (subtask: SubTaskItem) => {
-    io.emit('update_subtask', subtask);
-  });
-
-  // Listen for delete events for subtasks from clients and broadcast to all connected
-  socket.on('delete_subtask', (id: number) => {
-    io.emit('delete_subtask', id);
-  });
 });
 
 app.get('/todos', async (req, res) => {
@@ -67,7 +47,10 @@ app.post('/todos', async (req, res) => {
 });
 
 app.put('/todos/:id', async (req, res) => {
-  const { id } = req.params;
+  const id = parseInt(req.params.id, 10);
+  if (isNaN(id)) {
+    return res.status(400).send({ message: 'Invalid ID' });
+  }
   const { completed } = req.body;
   const todo = await TodoItem.findByPk(id);
   let updatedTodo;
@@ -87,7 +70,10 @@ app.put('/todos/:id', async (req, res) => {
 });
 
 app.delete('/todos/:id', async (req, res) => {
-  const { id } = req.params;
+  const id = parseInt(req.params.id, 10);
+  if (isNaN(id)) {
+    return res.status(400).send({ message: 'Invalid ID' });
+  }
   const numDeleted = await TodoItem.destroy({
     where: { id }
   });
@@ -101,27 +87,36 @@ app.delete('/todos/:id', async (req, res) => {
 });
 
 // CRUD operations for subtasks
-app.get('/todos/:taskId/subtasks', async (req, res) => {
-  const { taskId } = req.params;
-  const subtasks = await SubTaskItem.findAll({ where: { taskItemId: taskId } });
+app.get('/todos/:taskItemId/subtasks', async (req, res) => {
+  const taskItemId = parseInt(req.params.taskItemId, 10);
+  if (isNaN(taskItemId)) {
+    return res.status(400).send({ message: 'Invalid taskItemId' });
+  }
+  const subtasks = await SubTaskItem.findAll({ where: { taskItemId: taskItemId } });
   res.json(subtasks);
 });
 
-app.post('/todos/:taskId/subtasks', async (req, res) => {
-  const { taskId } = req.params;
+app.post('/todos/:taskItemId/subtasks', async (req, res) => {
+  const taskItemId = parseInt(req.params.taskItemId, 10);
+  if (isNaN(taskItemId)) {
+    return res.status(400).send({ message: 'Invalid taskItemId' });
+  }
   const { title, description } = req.body;
-  const taskItemId: number = parseInt(taskId);
   const subtask = await SubTaskItem.create({ title, description, taskItemId });
   res.json(subtask);
   io.emit('new_subtask', subtask); // Emit the new subtask to all clients
 });
 
-app.put('/todos/:taskId/subtasks/:subTaskId', async (req, res) => {
-  const { taskId, subTaskId } = req.params;
+app.put('/todos/:taskItemId/subtasks/:subtaskId', async (req, res) => {
+  const taskItemId = parseInt(req.params.taskItemId, 10);
+  const subtaskId = parseInt(req.params.subtaskId, 10);
+  if (isNaN(taskItemId) || isNaN(subtaskId)) {
+    return res.status(400).send({ message: 'Invalid taskItemId or subtaskId' });
+  }
   const updates = req.body; // This now contains all fields that might be updated
 
   try {
-    const subtask = await SubTaskItem.findOne({ where: { id: subTaskId, taskItemId: taskId } });
+    const subtask = await SubTaskItem.findOne({ where: { id: subtaskId, taskItemId: taskItemId } });
 
     if (!subtask) {
       return res.status(404).send('Subtask not found');
@@ -142,12 +137,16 @@ app.put('/todos/:taskId/subtasks/:subTaskId', async (req, res) => {
   }
 });
 
-app.delete('/todos/:taskId/subtasks/:subTaskId', async (req, res) => {
-  const { taskId, subTaskId } = req.params;
-  const numDeleted = await SubTaskItem.destroy({ where: { id: subTaskId, taskItemId: taskId } });
+app.delete('/todos/:taskItemId/subtasks/:subtaskId', async (req, res) => {
+  const taskItemId = parseInt(req.params.taskItemId, 10);
+  const subTaskId = parseInt(req.params.subtaskId, 10);
+  if (isNaN(taskItemId) || isNaN(subTaskId)) {
+    return res.status(400).send({ message: 'Invalid taskItemId or subtaskId' });
+  }
+  const numDeleted = await SubTaskItem.destroy({ where: { id: subTaskId, taskItemId: taskItemId } });
   if (numDeleted) {
     res.status(200).send({ message: `Deleted subtask with id ${subTaskId}` });
-    io.emit('delete_subtask', { taskId, subTaskId }); // Emit the delete to all connected clients
+    io.emit('delete_subtask', { taskItemId, subTaskId }); // Emit the delete to all connected clients
   } else {
     res.status(404).send('Subtask not found');
   }
