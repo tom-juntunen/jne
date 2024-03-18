@@ -27,14 +27,10 @@ input {
 }
 
 button {
-  background: #007bff;
-  color: white;
+  background: transparent;
   cursor: pointer;
   transition: background 0.3s ease;
-}
-
-button:hover {
-  background: #0056b3;
+  padding: 0 10px;
 }
 
 .app-container {

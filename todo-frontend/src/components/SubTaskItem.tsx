@@ -76,8 +76,8 @@ const SubTaskItem: React.FC<SubTaskItemProps> = ({
               placeholder="Subtask description"
             />
             <hr className="subtask-divider-horizontal" />
-            <a className="subtask-edit-save" style={{ maxWidth: '150px' }} onClick={handleSubmit}>Save</a>
-            <a className="subtask-edit-cancel" onClick={onCancelAddSubtask}>Cancel</a>
+            <button className="subtask-edit-save" style={{ maxWidth: '150px' }} onClick={handleSubmit}>Save</button>
+            <button className="subtask-edit-cancel" onClick={onCancelAddSubtask}>Cancel</button>
           </div>
         ) : isEditing ? (
           // Edit mode with input fields for title and description
@@ -93,16 +93,16 @@ const SubTaskItem: React.FC<SubTaskItemProps> = ({
               onChange={(e) => setEditedDescription(e.target.value)}
             />
             <hr className="subtask-divider-horizontal" />
-            <a className="subtask-edit-save" onClick={handleSave}>Save</a>
-            <a className="subtask-edit-cancel" onClick={() => setIsEditing(false)}>Cancel</a>
+            <button className="subtask-edit-save" onClick={handleSave}>Save</button>
+            <button className="subtask-edit-cancel" onClick={() => setIsEditing(false)}>Cancel</button>
           </div>
         ) : (
           // Display mode with text and an edit button
           <div className="subtask-content">
             {!completed && (
-              <a className="subtask-delete" onClick={() => deleteSubTask(taskItemId, id)}>
+              <button className="subtask-delete" onClick={() => deleteSubTask(taskItemId, id)}>
                 <span className="subtask-delete-x">X</span>
-              </a>
+              </button>
             )}
             <div className="subtask-text">
               <div className="subtask-title">
@@ -119,18 +119,17 @@ const SubTaskItem: React.FC<SubTaskItemProps> = ({
               </div>
             </div>
               {!completed && (
-                  <a className="subtask-mark-complete" onClick={() => toggleSubtaskComplete(taskItemId, id)}>
+                  <button className="subtask-mark-complete" onClick={() => toggleSubtaskComplete(taskItemId, id)}>
                     <BsCheckCircle />
-                  </a>
+                  </button>
                 )}
               <hr className="subtask-divider-horizontal" />
               <div className="subtask-action">
-                <a className="subtask-edit" onClick={() => handleEdit()}>Edit</a>
+                <button className="subtask-edit" onClick={() => handleEdit()}>Edit</button>
               </div>
           </div>
         )}
       </div>
-
     </div>
   );
 };

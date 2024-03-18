@@ -36,9 +36,9 @@ const TodoItem: React.FC<TodoItemProps> = ({
     <div className={itemClassName}>
       <div className="todo-content">
         {!completed && (
-            <a className="todo-delete" onClick={() => deleteTodo(id)}>
+            <button className="todo-delete" onClick={() => deleteTodo(id)}>
               <span className="todo-delete-x">X</span>
-            </a>
+            </button>
           )}
         <div className="todo-text">
           <div className="todo-title">
@@ -49,9 +49,9 @@ const TodoItem: React.FC<TodoItemProps> = ({
           {completed && <p className="completed-at">Completed at: <span className="completed-time">{completedAt && new Date(completedAt).toLocaleString()}</span></p>}
         </div>
         {!completed && (
-          <a className="mark-complete" onClick={() => toggleComplete(id)}>
+          <button className="mark-complete" onClick={() => toggleComplete(id)}>
             <BsCheckCircle />
-          </a>
+          </button>
         )}
       </div>
       {!completed && (
@@ -59,7 +59,7 @@ const TodoItem: React.FC<TodoItemProps> = ({
       )}
       <hr className="todo-divider-horizontal" />
       <div className="todo-action">
-        <a className="todo-add-subtask" onClick={() => onAddSubtask(id)}>Add Subtask</a>
+        <button className="todo-add-subtask" onClick={() => onAddSubtask(id)}>Add Subtask</button>
       </div>
     </div>
   );

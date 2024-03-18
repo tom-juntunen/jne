@@ -18,8 +18,6 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  flex-grow: 1;
 }
 
 .mark-complete {
@@ -46,6 +44,7 @@
 .todo-action {
   display: flex;
   align-items: center;
+  font-size: 12px;
 }
 
 .todo-title {
@@ -83,7 +82,6 @@
   height: 1px;
   background-color: #e1e1e1; /* Same as vertical line */
   width: calc(100% - 20px); /* Assuming 10px padding/margin on both sides */
-  margin: 10px 0; /* Adjust margin to match your design */
 }
 
 .completed-at {
@@ -94,31 +92,31 @@
 }
 
 .todo-delete {
+  background-color: transparent;
+  box-shadow: None;
   position: absolute;
   display: flex;
-  top: 0.5rem;  /* Adjust as needed */
-  left: 0.4rem; /* Adjust as needed */
-  color: #cac8c8; /* White text */
-  width: 0.5rem; /* Fixed width */
-  border-radius: 50%;
-  height: 0.5rem; /* Fixed height */
-  font-size: 0.8rem; /* Adjust the size of the 'X' */
-  line-height: 0.5rem; /* Centers the 'X' vertically */
-  text-align: center; /* Centers the 'X' horizontally */
+  top: 0.5rem;
+  left: 0.25rem;
+  color: #cac8c8;
   cursor: pointer;
   padding: 5px;
   transition: background-color 0.2s ease-in-out;
 }
 
-.todo-delete:hover {
-  background-color: #d9d9d980;
+.todo-delete-x {
+  height: 100%;
+  width: 100%;
+  margin: 0 0 15px 0;
 }
 
 .todo-add-subtask {
   background-color: transparent;
+  font-size: 12px;
+  box-shadow: None;
   color: #666;
   border: none;
-  padding: 0.5rem 1rem;
+  padding: 0.25rem 1rem;
   cursor: pointer;
 }
 
