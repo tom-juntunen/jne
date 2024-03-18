@@ -39,10 +39,10 @@
   background-color: transparent;
 }
 
-.mark-complete {
+.subtask-mark-complete {
   position: absolute;
   top: 1rem;
-  right: 0.5rem;
+  right: 0;
   padding: 0.5rem 1rem;
   background-color: #4caf50;
   color: #fff;
@@ -52,7 +52,7 @@
   transition: background-color 0.2s ease-in-out;
 }
 
-.mark-complete:hover {
+.subtask-mark-complete:hover {
   background-color: #388e3c;
 }
 

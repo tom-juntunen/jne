@@ -119,7 +119,7 @@ const SubTaskItem: React.FC<SubTaskItemProps> = ({
               </div>
             </div>
               {!completed && (
-                  <a className="mark-complete" onClick={() => toggleSubtaskComplete(taskItemId, id)}>
+                  <a className="subtask-mark-complete" onClick={() => toggleSubtaskComplete(taskItemId, id)}>
                     <BsCheckCircle />
                   </a>
                 )}

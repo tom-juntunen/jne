@@ -27,7 +27,7 @@
   top: 1rem;
   right: 0.5rem;
   padding: 0.5rem 1rem;
-  background-color: #2a9d8f;
+  background-color: #4caf50;
   color: #fff;
   border: none;
   border-radius: 5px;
@@ -36,7 +36,7 @@
 }
 
 .mark-complete:hover {
-  background-color: #21867a;
+  background-color: #388e3c;
 }
 
 .todo-text {

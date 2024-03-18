@@ -107,7 +107,7 @@ const App: React.FC = () => {
       }));
       toast.info('New subtask added!', {
         position: "top-center",
-        autoClose: false,
+        autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
