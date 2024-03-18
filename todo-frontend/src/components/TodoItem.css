@@ -46,7 +46,6 @@
 .todo-action {
   display: flex;
   align-items: center;
-  margin-top: 1rem; /* Space between content and actions */
 }
 
 .todo-title {
@@ -79,6 +78,14 @@
   color: #666;
 }
 
+.todo-divider-horizontal {
+  border: none;
+  height: 1px;
+  background-color: #e1e1e1; /* Same as vertical line */
+  width: calc(100% - 20px); /* Assuming 10px padding/margin on both sides */
+  margin: 10px 0; /* Adjust margin to match your design */
+}
+
 .completed-at {
   color: #4caf50;
   font-size: 0.8rem;
@@ -108,13 +115,14 @@
 }
 
 .todo-add-subtask {
-  background-color: #e9c46a;
-  color: white;
-  margin: 0 0 0.4rem 2rem;
-  border: 0.3px solid #dbdbdb;
-  transition: background-color 0.2s ease-in-out;
+  background-color: transparent;
+  color: #666;
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
 }
 
 .todo-add-subtask:hover {
-  background-color: #d3a95c;
+  color: #000;
+  background-color: transparent;
 }

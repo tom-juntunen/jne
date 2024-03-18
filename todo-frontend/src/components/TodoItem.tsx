@@ -1,6 +1,7 @@
 import React from 'react';
 import './TodoItem.css';
-import { formatUpdatedAt } from '../util/dates'
+import { formatUpdatedAt } from '../util/dates';
+import { BsCheckCircle } from 'react-icons/bs';
 
 interface TodoItemProps {
   id: number;
@@ -47,14 +48,18 @@ const TodoItem: React.FC<TodoItemProps> = ({
           <p className="todo-description">{description}</p>
           {completed && <p className="completed-at">Completed at: <span className="completed-time">{completedAt && new Date(completedAt).toLocaleString()}</span></p>}
         </div>
-      </div>
-      <div className="todo-action">
-        <button className="todo-add-subtask" onClick={() => onAddSubtask(id)}>Add Subtask</button>
         {!completed && (
-          <button className="mark-complete" onClick={() => toggleComplete(id)}>
-            Mark Complete
-          </button>
+          <a className="mark-complete" onClick={() => toggleComplete(id)}>
+            <BsCheckCircle />
+          </a>
         )}
+      </div>
+      {!completed && (
+        <div className="todo-divider-vertical"></div>
+      )}
+      <hr className="todo-divider-horizontal" />
+      <div className="todo-action">
+        <a className="todo-add-subtask" onClick={() => onAddSubtask(id)}>Add Subtask</a>
       </div>
     </div>
   );

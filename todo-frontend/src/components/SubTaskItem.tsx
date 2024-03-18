@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './SubTaskItem.css';
-import { formatUpdatedAt } from '../util/dates'
+import { formatUpdatedAt } from '../util/dates';
+import { BsCheckCircle } from 'react-icons/bs';
 
 interface SubTaskItemProps {
   id: number;
@@ -74,8 +75,9 @@ const SubTaskItem: React.FC<SubTaskItemProps> = ({
               onChange={(e) => setNewDescription(e.target.value)}
               placeholder="Subtask description"
             />
-            <button style={{ maxWidth: '150px' }} onClick={handleSubmit}>Add Subtask</button>
-            <button onClick={onCancelAddSubtask}>Cancel</button>
+            <hr className="subtask-divider-horizontal" />
+            <a className="subtask-edit-save" style={{ maxWidth: '150px' }} onClick={handleSubmit}>Save</a>
+            <a className="subtask-edit-cancel" onClick={onCancelAddSubtask}>Cancel</a>
           </div>
         ) : isEditing ? (
           // Edit mode with input fields for title and description
@@ -90,8 +92,9 @@ const SubTaskItem: React.FC<SubTaskItemProps> = ({
               value={editedDescription}
               onChange={(e) => setEditedDescription(e.target.value)}
             />
-            <button onClick={handleSave}>Save</button>
-            <button onClick={() => setIsEditing(false)}>Cancel</button>
+            <hr className="subtask-divider-horizontal" />
+            <a className="subtask-edit-save" onClick={handleSave}>Save</a>
+            <a className="subtask-edit-cancel" onClick={() => setIsEditing(false)}>Cancel</a>
           </div>
         ) : (
           // Display mode with text and an edit button
@@ -104,7 +107,6 @@ const SubTaskItem: React.FC<SubTaskItemProps> = ({
             <div className="subtask-text">
               <div className="subtask-title">
                 <h4>{title}</h4>
-                <button onClick={() => handleEdit()}>Edit</button>
                 <span className="subtask-updated-at">{updatedAt ? formatUpdatedAt(updatedAt) : 'N/A'}</span>
               </div>
               <p className="subtask-description">{description}</p>
@@ -116,11 +118,15 @@ const SubTaskItem: React.FC<SubTaskItemProps> = ({
                 )}
               </div>
             </div>
-            {!completed && (
-              <button className="mark-complete" onClick={() => toggleSubtaskComplete(taskItemId, id)}>
-                Mark Complete
-              </button>
-            )}
+              {!completed && (
+                  <a className="mark-complete" onClick={() => toggleSubtaskComplete(taskItemId, id)}>
+                    <BsCheckCircle />
+                  </a>
+                )}
+              <hr className="subtask-divider-horizontal" />
+              <div className="subtask-action">
+                <a className="subtask-edit" onClick={() => handleEdit()}>Edit</a>
+              </div>
           </div>
         )}
       </div>
